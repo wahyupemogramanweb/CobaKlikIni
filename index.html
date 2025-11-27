@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kue Ulang Tahun Pixel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6c6a6c 0%, #6e6d6e 100%);
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            image-rendering: pixelated;
+        }
+
+        h1 {
+            color: white;
+            font-size: clamp(1.5em, 5vw, 3em);
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.5);
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+            padding: 0 10px;
+            position: relative;
+            z-index: 100;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .cake-container {
+            position: relative;
+            display: inline-block;
+            animation: floatUp 1.5s ease forwards;
+            opacity: 0;
+            transform-origin: center center;
+            filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.4));
+            margin-top: clamp(80px, 20vw, 120px);
+            margin-bottom: 30px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Layer Bawah - Cokelat Pixel */
+        .cake-layer-bottom {
+            position: relative;
+            width: 320px;
+            height: 120px;
+            background: linear-gradient(180deg, #9B7653 0%, #7A5C3D 50%, #5C3F1F 100%);
+            border: 4px solid #3D2817;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding-bottom: 15px;
+        }
+
+        .pixel-block {
+            display: inline-block;
+            image-rendering: pixelated;
+        }
+
+        /* Ribbon Biru */
+        .ribbon-blue {
+            position: absolute;
+            width: 100%;
+            height: 32px;
+            background: linear-gradient(90deg, #2E8FD9 0%, #1E5AAD 100%);
+            border-top: 4px solid #1A3F7A;
+            border-bottom: 4px solid #1A3F7A;
+            top: 75px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .ribbon-bow-pixel {
+            width: 24px;
+            height: 24px;
+            background: #1E5AAD;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 50% 85%, 20% 100%, 0% 80%, 0% 20%);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        /* Layer Tengah - Pink dengan Cherry */
+        .cake-layer-middle {
+            position: relative;
+            width: 280px;
+            height: 110px;
+            margin: -8px auto 0;
+            background: linear-gradient(180deg, #FFB6D9 0%, #FF9EC7 50%, #FF8BB3 100%);
+            border: 4px solid #FF7BA3;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .cherry-pixel {
+            width: 20px;
+            height: 20px;
+            background: #CC0000;
+            border: 2px solid #990000;
+            box-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+        }
+
+        .sprinkle-pixel {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #1abc9c;
+            background: #1abc9c;
+            box-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+        }
+
+        /* Frosting Waves Pixel */
+        .frosting-wave {
+            position: absolute;
+            width: 100%;
+            height: 28px;
+            top: -28px;
+            background: repeating-linear-gradient(
+                90deg,
+                #C99DB4 0px,
+                #C99DB4 32px,
+                transparent 32px,
+                transparent 64px
+            );
+            clip-path: polygon(
+                0% 0%, 8% 30%, 16% 0%, 24% 30%, 32% 0%, 40% 30%, 48% 0%, 
+                56% 30%, 64% 0%, 72% 30%, 80% 0%, 88% 30%, 96% 0%, 100% 30%,
+                100% 100%, 0% 100%
+            );
+            border: 2px solid #B88BA4;
+        }
+
+        /* Layer Atas - Pink */
+        .cake-layer-top {
+            position: relative;
+            width: 240px;
+            height: 100px;
+            margin: -8px auto 0;
+            background: linear-gradient(180deg, #FFB6D9 0%, #FF9EC7 50%, #FF8BB3 100%);
+            border: 4px solid #FF7BA3;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 8px;
+        }
+
+        .frosting-wave-top {
+            position: absolute;
+            width: 100%;
+            height: 24px;
+            top: -24px;
+            background: repeating-linear-gradient(
+                90deg,
+                #C99DB4 0px,
+                #C99DB4 28px,
+                transparent 28px,
+                transparent 56px
+            );
+            clip-path: polygon(
+                0% 0%, 8% 35%, 16% 0%, 24% 35%, 32% 0%, 40% 35%, 48% 0%, 
+                56% 35%, 64% 0%, 72% 35%, 80% 0%, 88% 35%, 96% 0%, 100% 35%,
+                100% 100%, 0% 100%
+            );
+            border: 2px solid #B88BA4;
+        }
+
+        .candles-group {
+            position: absolute;
+            top: -100px;  /* Turunkan lilin supaya pas di atas kue */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+
+        .candle-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .candle-pixel {
+            width: 28px;
+            height: 80px;
+            background: repeating-linear-gradient(
+                90deg,
+                #2E8FD9 0px,
+                #2E8FD9 6px,
+                #B76FBD 6px,
+                #B76FBD 12px,
+                #2E8FD9 12px,
+                #2E8FD9 18px,
+                #B76FBD 18px,
+                #B76FBD 24px
+            );
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        /* Perbaikan tampilan HP: turunkan posisi lilin agar tidak menimpa tulisan */
+        @media (max-width: 480px) {
+
+            body {
+                padding: 10px;
+            }
+
+            /* Geser judul ke atas */
+            h1 {
+                margin-top: -25px !important;
+                z-index: 999;
+                position: relative;
+            }
+
+            .cake-container {
+                margin-top: 60px;
+                transform: scale(0.8);
+            }
+
+            .candles-group {
+                top: -70px !important;
+                transform: translateX(-50%) scale(0.85);
+            }
+
+            button {
+                width: 90%;
+                max-width: 250px;
+            }
+        }
+
+
+        .flame-pixel {
+            position: absolute;
+            top: -48px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 40px;
+            background: linear-gradient(180deg, #FFFF00 0%, #FFAA00 60%, #FF5500 100%);
+            border: 2px solid #FF6600;
+            animation: flickerPixel 0.3s infinite alternate;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 40%, 85% 100%, 50% 95%, 15% 100%, 0% 40%);
+            box-shadow: 0px 0px 16px rgba(255, 200, 0, 0.8), 0px 0px 8px rgba(255, 100, 0, 0.6);
+        }
+
+        .flame-pixel::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 8px;
+            background: #FFFF00;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+
+        .flame-pixel.blown {
+            animation: blowOutPixel 0.6s ease forwards;
+        }
+
+        /* === PIXEL ART NIGHT SKY BACKGROUND === */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                /* Lapisan bintang kecil */
+                radial-gradient(#ffffff 1px, transparent 1px) 0 0,
+                radial-gradient(#ffffff 1.2px, transparent 1px) 20px 40px,
+                radial-gradient(#ffffff 1px, transparent 1px) 60px 80px,
+                radial-gradient(#ffffff 1.2px, transparent 1px) 100px 20px,
+                radial-gradient(#ffffff 1px, transparent 1px) 140px 60px;
+            background-size: 160px 160px;
+            background-color: #0b0d1a;
+            z-index: -10;
+            image-rendering: pixelated;
+            filter: brightness(0.9);
+        }
+
+        /* Tambahan gradasi langit */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent 60%, rgba(0,0,0,0.5));
+            z-index: -9;
+        }
+
+        /* === SHOOTING STAR / BINTANG JATUH PIXEL === */
+        .shooting-star {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: white;
+            box-shadow: 0 0 6px white;
+            image-rendering: pixelated;
+            top: -20px;
+            left: 0;
+            opacity: 0.9;
+            transform: rotate(45deg);
+            animation: shootingStar 1.4s linear forwards;
+        }
+
+    @keyframes shootingStar {
+        0% {
+            transform: translate(0, 0) rotate(45deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(600px, 600px) rotate(45deg);
+            opacity: 0;
+        }  
+        }
+
+        /* Animasi */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flickerPixel {
+            0%, 100% { 
+                transform: translateX(-50%) scaleY(1);
+            }
+            50% { 
+                transform: translateX(-50%) scaleY(1.15);
+            }
+        }
+
+        @keyframes blowOutPixel {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) scaleY(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(-50%) scaleY(0.5);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scaleY(0);
+            }
+        }
+
+        @keyframes confettiPixelFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .confetti-pixel {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            opacity: 0;
+            border: 2px solid;
+            image-rendering: pixelated;
+        }
+
+        .message {
+            color: white;
+            font-size: clamp(1.2em, 4vw, 1.8em);
+            margin-top: clamp(20px, 5vw, 30px);
+            opacity: 0;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+            padding: 0 10px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .message {
+            font-weight: bold;
+        }
+
+        .message.show {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        button {
+            margin-top: clamp(30px, 8vw, 50px);
+            padding: clamp(12px 30px, 3vw 8vw, 15px 40px);
+            font-size: clamp(1em, 3vw, 1.2em);
+            background: linear-gradient(45deg, #FF4444, #FF8844);
+            color: white;
+            border: 3px solid #CC0000;
+            border-radius: 0px;
+            cursor: pointer;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
+            transition: all 0.1s ease;
+            font-weight: bold;
+            white-space: nowrap;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.4);
+        }
+
+        button:active {
+            transform: translate(0px, 0px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .cake-container {
+                margin-top: 60px;
+                transform: scale(0.8);
+            }
+
+            button {
+                width: 90%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> HAPPY BIRTHDAY IBU NEGARA</h1>
+        
+        <div class="cake-container">
+            <!-- Lilin -->
+            <div class="candles-group">
+                <div class="candle-wrapper">
+                    <div class="candle-pixel">
+                        <div class="flame-pixel" id="flame1"></div>
+                    </div>
+                </div>
+                <div class="candle-wrapper">
+                    <div class="candle-pixel">
+                        <div class="flame-pixel" id="flame2"></div>
+                    </div>
+                </div>
+                <div class="candle-wrapper">
+                    <div class="candle-pixel">
+                        <div class="flame-pixel" id="flame3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer Atas -->
+            <div class="cake-layer-top">
+                <div class="frosting-wave-top"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+            </div>
+
+            <!-- Layer Tengah -->
+            <div class="cake-layer-middle">
+                <div class="frosting-wave"></div>
+                <div class="cherry-pixel"></div>
+                <div class="cherry-pixel"></div>
+                <div class="cherry-pixel"></div>
+                <div class="cherry-pixel"></div>
+                <div class="cherry-pixel"></div>
+                <div class="cherry-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+                <div class="sprinkle-pixel"></div>
+            </div>
+
+            <!-- Ribbon -->
+            <div class="ribbon-blue">
+                <div class="ribbon-bow-pixel"></div>
+                <div class="ribbon-bow-pixel"></div>
+                <div class="ribbon-bow-pixel"></div>
+            </div>
+
+            <!-- Layer Bawah -->
+            <div class="cake-layer-bottom"></div>
+        </div>
+
+        <button onclick="blowCandle()">[ TEKAN UNTUK TIUP LILIN ]</button>
+        
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        function blowCandle() {
+            const flames = document.querySelectorAll('.flame-pixel');
+            const message = document.getElementById('message');
+            const button = document.querySelector('button');
+            
+            flames.forEach(flame => {
+                flame.classList.add('blown');
+            });
+            
+            setTimeout(() => {
+                message.textContent = '*** Selamat Ulang Tahun Yang Ke-52. Semoga Panjang Umur Dan Dimudahkan Rezekinya  ***';
+                message.classList.add('show');
+                button.style.display = 'none';
+            }, 600);
+            
+            createConfetti();
+        }
+        // Bintang jatuh pixel art (lebih banyak)
+        setInterval(() => {
+            // jumlah bintang per gelombang
+            const jumlah = 3 + Math.floor(Math.random() * 4); // 3–6 bintang sekaligus
+
+            for (let i = 0; i < jumlah; i++) {
+                const star = document.createElement('div');
+                star.classList.add('shooting-star');
+
+                // posisi acak
+                star.style.left = Math.random() * window.innerWidth + 'px';
+                star.style.top = (Math.random() * -200) + 'px';
+
+                // durasi animasi acak
+                star.style.animationDuration = (0.6 + Math.random() * 0.9) + 's';
+
+                // delay kecil agar jatuhnya tidak bareng persis
+                star.style.animationDelay = (Math.random() * 0.3) + 's';
+
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 2000);
+            }
+        }, 500); // interval lebih cepat → 0.5 detik
+
+
+
+        function createConfetti() {
+            const colors = ['#FF4444', '#44FF44', '#4444FF', '#FFFF44', '#FF44FF', '#44FFFF'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-pixel';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confettiPixelFall ${2 + Math.random() * 2}s linear forwards`;
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 20);
+            }
+        }
+    </script>
+</body>
+</html>
